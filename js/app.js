@@ -90,8 +90,10 @@ var AddNews = React.createClass({
 
     getInitialState: function(){
         return {
-            btnIsDisabled: true
-        }
+            agreeNotChecked: true,
+            authorIsEmpty: true,
+            textIsEmpty: true
+        };
     },
 
     componentDidMount: function() { //ставим фокус в input
@@ -100,24 +102,46 @@ var AddNews = React.createClass({
 
     onBtnAlert: function(e){
         e.preventDefault();
+        var author = ReactDOM.findDOMNode(this.refs.author).value;
+        var text = ReactDOM.findDOMNode(this.refs.text).value;
+        alert(author + '\n' + text);
     },
 
     onCheckRuleClick: function(e) {
-        this.setState({btnIsDisabled: !this.state.btnIsDisabled}); //устанавливаем значение в state
+        this.setState({agreeNotChecked: !this.state.agreeNotChecked}); //устанавливаем значение в state
+    },
+
+    onAuthorChange: function(e) {
+        if (e.target.value.trim().length > 0) {
+            this.setState({authorIsEmpty: false})
+        } else {
+            this.setState({authorIsEmpty: true})
+        }
+    },
+
+    onTextChange: function(e) {
+        if (e.target.value.trim().length > 0) {
+            this.setState({textIsEmpty: false})
+        } else {
+            this.setState({textIsEmpty: true})
+        }
     },
 
     render: function() {
+        var agreeNotChecked = this.state.agreeNotChecked,
+            authorIsEmpty = this.state.authorIsEmpty,
+            textIsEmpty = this.state.textIsEmpty;
         return (
             <form className='add cf'>
             <input className='add__author'
                    type='text'
-                   defaultValue=''
+                   onChange={this.onAuthorChange}
                    placeholder='Ваше имя'
                    ref='author'
             />
                 <textarea
                 className='add__text'
-                defaultValue=''
+                onChange={this.onTextChange}
                 placeholder='Текст новости'
                 ref='text'
                 ></textarea>
@@ -130,7 +154,7 @@ var AddNews = React.createClass({
             <button className='add__btn'
                     onClick={this.onBtnAlert}
                     ref='alert_button'
-                    disabled={this.state.btnIsDisabled}
+                    disabled={agreeNotChecked || authorIsEmpty || textIsEmpty}
             >Вызвать Alert
             </button>
             </form>
