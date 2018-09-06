@@ -107,24 +107,19 @@ var AddNews = React.createClass({
         alert(author + '\n' + text);
     },
 
+    onFieldChange: function(fieldName, e) {
+        var next = {};
+        if (e.target.value.trim().length > 0) {
+            next[fieldName] = false;
+            this.setState(next);
+        } else {
+            next[fieldName] = true;
+            this.setState(next);
+        }
+    },
+
     onCheckRuleClick: function(e) {
         this.setState({agreeNotChecked: !this.state.agreeNotChecked}); //устанавливаем значение в state
-    },
-
-    onAuthorChange: function(e) {
-        if (e.target.value.trim().length > 0) {
-            this.setState({authorIsEmpty: false})
-        } else {
-            this.setState({authorIsEmpty: true})
-        }
-    },
-
-    onTextChange: function(e) {
-        if (e.target.value.trim().length > 0) {
-            this.setState({textIsEmpty: false})
-        } else {
-            this.setState({textIsEmpty: true})
-        }
     },
 
     render: function() {
@@ -135,13 +130,13 @@ var AddNews = React.createClass({
             <form className='add cf'>
             <input className='add__author'
                    type='text'
-                   onChange={this.onAuthorChange}
+                   onChange={this.onFieldChange.bind(this, 'authorIsEmpty')}
                    placeholder='Ваше имя'
                    ref='author'
             />
                 <textarea
                 className='add__text'
-                onChange={this.onTextChange}
+                onChange={this.onFieldChange.bind(this, 'textIsEmpty')}
                 placeholder='Текст новости'
                 ref='text'
                 ></textarea>
