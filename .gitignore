@@ -9,5 +9,9 @@ ehthumbs.db
 Thumbs.db
 
 node_modules
+/.idea
 npm-debug.log
 book_img
+
+*.[oa]
+*~
