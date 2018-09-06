@@ -45,27 +45,17 @@ var Article = React.createClass({
             <div className="article">
                 <p className ='news__author'>{author}:</p>
                 <p className ='news__text'>{text} </p>
-                <a href="#" onClick={this.readmoreClick} className={'news__readmore ' + (visible ? 'none' : '')}>
+                <a href="#" onClick={this.readmoreClick}
+                   className={'news__readmore ' + (visible ? 'none' : '')}>
                     Подробнее</a>
-                <p className={'news__bigText ' + (visible ? '' : 'none')}>{bigText}</p>
+                <p className={'news__bigText ' + (visible ? '' : 'none')}>
+                    {bigText}</p>
             </div>
         )
     }
 });
 
 var News = React.createClass({
-    propTypes:{
-        data: React.PropTypes.array.isRequired
-    },
-
-    getInitialState: function(){
-        return {
-            counter: 0
-        }
-    },
-    onTotalNewsClick: function(){
-this.setState({counter: ++this.state.counter});
-    },
 
     render: function() {
         var data = this.props.data;
@@ -88,9 +78,39 @@ this.setState({counter: ++this.state.counter});
             <div className="news">
                 {newsTemplate}
                 <strong
-                    className={'news__count ' + (data.length > 0 ? "": "none")} onClick={this.onTotalNewsClick}>
+                    className={data.length > 0 ? "" : "none"}>
                     Всего новостей: {data.length}
                     </strong>
+            </div>
+        );
+    }
+});
+
+var TestInput = React.createClass({
+
+    getInitialState: function() {
+        return {
+            myValue: ''
+        };
+    },
+
+    onChangeHandler: function(e) {
+        this.setState({myValue: e.target.value})
+    },
+
+    onBtnAlert: function(){
+    alert(this.state.myValue)
+    },
+
+    render: function() {
+        return (
+            <div>
+            <input className='test-input'
+                   value={this.state.myValue}
+                   onChange={this.onChangeHandler}
+                   placeholder='введите значение'
+            />
+            <button onClick={this.onBtnAlert}>Вызвать Alert</button>
             </div>
         );
     }
@@ -101,6 +121,7 @@ var App = React.createClass({
         return (
             <div className="app">
                 <h3>Новости</h3>
+                <TestInput />
                 <News data={my_news}/>
             </div>
         );
