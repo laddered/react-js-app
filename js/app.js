@@ -88,29 +88,21 @@ var News = React.createClass({
 
 var TestInput = React.createClass({
 
-    getInitialState: function() {
-        return {
-            myValue: ''
-        };
-    },
-
-    onChangeHandler: function(e) {
-        this.setState({myValue: e.target.value})
-    },
-
     onBtnAlert: function(){
-    alert(this.state.myValue)
+        console.log(this.refs);
+    alert(ReactDOM.findDOMNode(this.refs.myTestInput).value);
     },
 
     render: function() {
         return (
             <div>
             <input className='test-input'
-                   value={this.state.myValue}
+                   defaultValue=''
                    onChange={this.onChangeHandler}
                    placeholder='введите значение'
+                   ref='myTestInput'
             />
-            <button onClick={this.onBtnAlert}>Вызвать Alert</button>
+            <button onClick={this.onBtnAlert} ref='alert_button'>Вызвать Alert</button>
             </div>
         );
     }
