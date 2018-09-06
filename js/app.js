@@ -88,23 +88,22 @@ var News = React.createClass({
 
 var AddNews = React.createClass({
 
+    getInitialState: function(){
+        return {
+            btnIsDisabled: true
+        }
+    },
+
     componentDidMount: function() { //ставим фокус в input
         ReactDOM.findDOMNode(this.refs.author).focus();
     },
 
-    componentWillReceiveProps: function(nextProps) {
-        this.setState({
-            likesIncreasing: nextProps.likeCount > this.props.likeCount
-        });
-    },
-
-    onBtnAlert: function(){
-        console.log(this.refs);
-    alert(ReactDOM.findDOMNode(this.refs.myTestInput).value);
+    onBtnAlert: function(e){
+        e.preventDefault();
     },
 
     onCheckRuleClick: function(e) {
-        ReactDOM.findDOMNode(this.refs.alert_button).disabled = !e.target.checked;
+        this.setState({btnIsDisabled: !this.state.btnIsDisabled}); //устанавливаем значение в state
     },
 
     render: function() {
@@ -124,7 +123,6 @@ var AddNews = React.createClass({
                 ></textarea>
                 <label className='add__checkrule'>
                     <input type='checkbox'
-                           defaultChecked={false}
                            ref='checkrule'
                            onChange={this.onCheckRuleClick}
                     />Я согласен с правилами
@@ -132,8 +130,8 @@ var AddNews = React.createClass({
             <button className='add__btn'
                     onClick={this.onBtnAlert}
                     ref='alert_button'
-                    disabled>
-                Вызвать Alert
+                    disabled={this.state.btnIsDisabled}
+            >Вызвать Alert
             </button>
             </form>
         );
